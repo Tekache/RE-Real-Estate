@@ -1,7 +1,3 @@
-/**
- * Signup Page Component
- * User registration with form validation
- */
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -395,14 +391,14 @@ function Signup() {
           </div>
 
           {/* Social Signup Buttons */}
-          <div className="d-flex gap-3">
+          {/* <div className="d-flex gap-3">
             <button className="btn btn-outline-secondary flex-fill">
               <Google className="me-2" /> Google
             </button>
             <button className="btn btn-outline-secondary flex-fill">
               <Facebook className="me-2" /> Facebook
             </button>
-          </div>
+          </div> */}
 
           {/* Login Link */}
           <div className="auth-footer">

@@ -1,7 +1,3 @@
-/**
- * Login Page Component
- * User authentication with form validation
- */
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -230,13 +226,13 @@ function Login() {
           </form>
 
           {/* Demo Login Button */}
-          <button
+          {/* <button
             type="button"
             className="btn btn-outline-secondary w-100 mt-3"
             onClick={handleDemoLogin}
           >
             Demo Login (No Backend Required)
-          </button>
+          </button> */}
 
           {/* Social Login Divider */}
           <div className="auth-divider">
@@ -244,14 +240,14 @@ function Login() {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="d-flex gap-3">
+          {/* <div className="d-flex gap-3">
             <button className="btn btn-outline-secondary flex-fill">
               <Google className="me-2" /> Google
             </button>
             <button className="btn btn-outline-secondary flex-fill">
               <Facebook className="me-2" /> Facebook
             </button>
-          </div>
+          </div> */}
 
           {/* Sign Up Link */}
           <div className="auth-footer">
