@@ -1,17 +1,20 @@
 /**
  * API Configuration
  * Central configuration for backend API connection
+ * Works both locally (via Vite proxy) and in production (Vercel → Render)
  */
 
 import axios from 'axios';
 
-// API Base URL - Points to Flask backend
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// API Base URL
+// - In production (Vercel): uses VITE_API_URL env var → Render backend
+// - In local dev: uses Vite proxy (/api → http://localhost:5000/api)
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Create axios instance with default configuration
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 30000, // 30s to handle Render cold starts
   headers: {
     'Content-Type': 'application/json',
   },
@@ -74,6 +77,13 @@ api.interceptors.response.use(
         localStorage.removeItem('user');
         window.location.href = '/login';
       }
+    }
+
+    // Handle network errors (e.g. Render cold start, server down)
+    if (!error.response) {
+      return Promise.reject(
+        new Error('Unable to connect to the server. Please check your connection or try again.')
+      );
     }
 
     // Handle other errors

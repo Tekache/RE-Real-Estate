@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: rerealestate-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    envVars:
+      - key: FLASK_DEBUG
+        value: False
+      - key: CORS_ORIGINS
+        value: https://rerealestate.vercel.app,http://localhost:5173,http://localhost:3000
+      - key: MONGODB_TIMEOUT_MS
+        value: 10000
+      - key: USE_MOCK_DB_ON_FAILURE
+        value: False

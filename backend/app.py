@@ -74,20 +74,20 @@ def create_app():
     
     cors_origins_value = os.getenv('CORS_ORIGINS')
     if cors_origins_value:
-        cors_origins = [origin.strip() for origin in cors_origins_value.split(',') if origin.strip()]
+        # Strip trailing slashes from origins - Flask-CORS is strict about exact matches
+        cors_origins = [origin.strip().rstrip('/') for origin in cors_origins_value.split(',') if origin.strip()]
     else:
-        frontend_url = os.getenv('FRONTEND_URL', '').strip()
-        cors_origins = [frontend_url] if frontend_url else ['http://localhost:5173', 'http://localhost:3000']
+        frontend_url = os.getenv('FRONTEND_URL', '').strip().rstrip('/')
+        cors_origins = [frontend_url] if frontend_url else ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173']
 
-    # Initialize extensions
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": cors_origins,
-            "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": False
-        }
-    })
+    # Initialize CORS - allow all API routes
+    CORS(app,
+        origins=cors_origins,
+        methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"],
+        supports_credentials=False,
+        expose_headers=["Content-Type", "Authorization"]
+    )
     
     jwt = JWTManager(app)
     
@@ -119,6 +119,10 @@ def create_app():
     @app.before_request
     def ensure_database_connection():
         if not request.path.startswith('/api/'):
+            return None
+
+        # Always allow CORS preflight requests
+        if request.method == 'OPTIONS':
             return None
 
         if request.endpoint in {'health_check', 'root'}:
