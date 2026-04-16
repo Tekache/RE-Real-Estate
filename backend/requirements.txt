@@ -1,0 +1,33 @@
+# Flask Backend Requirements
+# Real Estate Management System
+
+# Core Flask
+Flask==3.0.0
+Flask-CORS==4.0.0
+Flask-JWT-Extended==4.6.0
+
+# MongoDB
+pymongo==4.6.1
+dnspython==2.4.2
+mongomock==4.1.2
+
+# Security
+Werkzeug==3.0.1
+python-dotenv==1.0.0
+
+# Utilities
+email-validator==2.3.0
+setuptools>=69.0.0,<81.0.0
+
+# Production server
+gunicorn==21.2.0
+
+# Optional: For image uploads (install only if needed)
+# Pillow>=11.2.0
+
+# Optional: For sending emails
+# Flask-Mail==0.9.1
+
+# Optional: For background tasks
+# celery==5.3.4
+# redis==5.0.1
